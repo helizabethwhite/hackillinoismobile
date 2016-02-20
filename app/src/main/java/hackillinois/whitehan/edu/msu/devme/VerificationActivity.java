@@ -3,9 +3,12 @@ package hackillinois.whitehan.edu.msu.devme;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import java.util.Random;
 
 public class VerificationActivity extends AppCompatActivity{
     @Override
@@ -23,7 +26,8 @@ public class VerificationActivity extends AppCompatActivity{
         if (devicePreferences.contains("phone-number")) {
             String phoneNumber = devicePreferences.getString("phone-number", "");
 
-            // DO TEXT VERIFICATION HERE USING TEXT MESSAGE
+            generateRand();
+            sendText(phoneNumber);
         }
     }
 
@@ -47,5 +51,29 @@ public class VerificationActivity extends AppCompatActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void generateRand() {
+        Random r = new Random();
+        int code = r.nextInt(9999 - 1000) + 1000; // generate random 4-digit number
+
+        SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+        SharedPreferences.Editor editor = devicePreferences.edit();
+        editor.putInt("code", code);
+        editor.commit();
+    }
+
+    public void sendText(String phoneNumber) {
+        SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+
+        if (devicePreferences.contains("code")) {
+
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber, null, "Verification code: "+Integer.toString(devicePreferences.getInt("code", 0)), null, null);
+
+        } else {
+            generateRand();
+            sendText(phoneNumber);
+        }
     }
 }
