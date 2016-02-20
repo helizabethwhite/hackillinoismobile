@@ -97,7 +97,17 @@ public class NavigationActivity extends AppCompatActivity
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == MY_CONTENT) {
 
+                } else if (position == MY_PROJECTS) {
+
+                } else if (position == SETTINGS) {
+
+                } else if (position == PROFILE) {
+
+                } else if (position == LOG_OUT) {
+
+                }
             }
         });
     }
@@ -115,14 +125,14 @@ public class NavigationActivity extends AppCompatActivity
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Navigation!");
+                getSupportActionBar().setTitle("Navigation");
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(mActivityTitle);
+                getSupportActionBar().setTitle("Dashboard");
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
