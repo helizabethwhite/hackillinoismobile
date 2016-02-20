@@ -1,14 +1,11 @@
 package hackillinois.whitehan.edu.msu.devme;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.app.AppCompatActivity;
-import android.telephony.SmsManager;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -20,94 +17,43 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class VerificationActivity extends AppCompatActivity{
+/**
+ * Created by hewhite on 2/20/16.
+ */
+public class SplashScreen extends Activity {
 
 
     public static final String GLOBAL_USERNAME = "edu.msu.whitehan.USERNAME";
     public static final String GLOBAL_PASSWORD = "edu.msu.whitehan.PASSWORD";
 
-    private String username;
-    private String password;
-    private String phoneNumber;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.verification);
-
-        Bundle bundle = getIntent().getExtras();
-
-        if (bundle != null)
-        {
-            username = bundle.getString(GLOBAL_USERNAME, "");
-            password = bundle.getString(GLOBAL_PASSWORD, "");
-        }
-        // get saved phone number from phone
-        SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
-        if (devicePreferences.contains("phone-number")) {
-            phoneNumber = devicePreferences.getString("phone-number", "");
-            username = devicePreferences.getString("username", "");
-            password = devicePreferences.getString("password", "");
-            generateRand();
-            sendText(phoneNumber);
-        }
-    }
-
-    public void generateRand() {
-        Random r = new Random();
-        int code = r.nextInt(9999 - 1000) + 1000; // generate random 4-digit number
+        setContentView(R.layout.splash);
 
         SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
-        SharedPreferences.Editor editor = devicePreferences.edit();
-        editor.putInt("code", code);
-        editor.commit();
-    }
 
-    public void sendText(String phoneNumber) {
-        SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+        if (devicePreferences.contains("username")) {
 
-        if (devicePreferences.contains("code")) {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(phoneNumber, null, "Verification code: "+Integer.toString(devicePreferences.getInt("code", 0)), null, null);
-
+            TextView resultText = (TextView)findViewById(R.id.resultText);
+            String username = devicePreferences.getString("username", "");
+            String password = devicePreferences.getString("password", "");
+            new AttemptLogin(resultText, username, password);
         } else {
-            generateRand();
-            sendText(phoneNumber);
-        }
-    }
-
-    public void checkCode() {
-
-        TextView resultText = (TextView)findViewById(R.id.verificationResultText);
-        EditText codeTextBox = (EditText)findViewById(R.id.verificationCodeTextBox);
-        String code = codeTextBox.getText().toString();
-
-        SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
-        String storedCode = Integer.toString(devicePreferences.getInt("code", 0));
-
-        if (code.equals(storedCode)) {
-            // update database to store verified = 1
-            resultText.setText("");
-            new AttemptVerification(resultText, username, password);
-        } else {
-            resultText.setText("Incorrect code.");
+            // redirect user to login screen
+            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
 
+
     }
 
-    public void onDoneClick(View view) {
-        checkCode();
-    }
-
-    public void onResendClick(View view) {
-        sendText(phoneNumber);
-    }
-
-    public class AttemptVerification {
+    public class AttemptLogin {
 
         /**
          * Post param for username during login
@@ -147,7 +93,7 @@ public class VerificationActivity extends AppCompatActivity{
          * @param username
          * @param password
          */
-        public AttemptVerification(final TextView view, final String username, final String password) {
+        public AttemptLogin(final TextView view, final String username, final String password) {
 
             this.username = username;
             this.password = password;
@@ -157,25 +103,49 @@ public class VerificationActivity extends AppCompatActivity{
 
                 @Override
                 public void run() {
-                    String updateResult = update();
-                    results = updateResult;
+                    String loginResult = login();
+                    results = loginResult;
 
-                    if (results.equals("update successful")) {
-                        Handler handler = new Handler(Looper.getMainLooper());
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    if (results.equals("login success")) {
                         handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(VerificationActivity.this, NDAActivity.class);
+                                    Intent intent = new Intent(SplashScreen.this, NavigationActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
-                                    //view.setText(results);
                                 }
                             });
-                    } else {
-                        view.post(new Runnable() {
+                    } else if (results.equals("not verified")){
+                        handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                view.setText(results);
+                                Intent intent = new Intent(SplashScreen.this, VerificationActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                // pass these along for verification rather than storing them on the phone
+                                intent.putExtra(GLOBAL_USERNAME, username);
+                                intent.putExtra(GLOBAL_PASSWORD, password);
+                                startActivity(intent);
+                            }
+                        });
+                        // invalid credentials
+                    } else {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                // remove saved login info so that login process must be redone
+                                SharedPreferences device_preferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = device_preferences.edit();
+                                editor.remove("username");   // This will delete your preferences
+                                editor.remove("password");
+                                editor.apply();
+
+                                // redirect user to login screen
+                                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
                             }
                         });
                     }
@@ -184,12 +154,12 @@ public class VerificationActivity extends AppCompatActivity{
             }).start();
         }
 
-        public String update() {
+        public String login() {
             String serverResults = "";
 
             String postData = USERNAME + username + "&" + PASSWORD + password + "&" + ANDROID_KEY + KEY;
 
-            String urlStr = "http://devme.tech/verify-mobile.php";
+            String urlStr = "http://devme.tech/login-mobile.php";
 
             try {
 

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         {
             // Clear preferences so that user doesn't automatically log in again and can see
             // the kicked message
-            SharedPreferences device_preferences = getSharedPreferences("User", MODE_PRIVATE);
+            SharedPreferences device_preferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
             SharedPreferences.Editor editor = device_preferences.edit();
             editor.remove("username");   // This will delete your preferences
             editor.remove("password");
@@ -164,10 +164,8 @@ public class MainActivity extends AppCompatActivity {
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                                    Intent intent = new Intent(MainActivity.this, NavigationActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-
                                     startActivity(intent);
                                     //view.setText(results);
                                 }
