@@ -1,7 +1,6 @@
 package hackillinois.whitehan.edu.msu.devme;
 
-/**
- * Created by kayla on 2/20/2016.
- */
-public class DashboardActivity {
+import android.support.v7.app.AppCompatActivity;
+
+public class DashboardActivity extends AppCompatActivity {
 }
