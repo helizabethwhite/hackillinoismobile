@@ -6,4 +6,13 @@
     <string name="newuser">New here? Sign up.</string>
     <string name="next">Next</string>
     <string name="remember">Remember Me</string>
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="email">Email Address</string>
+    <string name="password">Password</string>
+    <string name="confirmpassword">Confirm Password</string>
+    <string name="username">Username</string>
+    <string name="phoneDisclaimer">We will only use your phone number when verifiying your registration.</string>
+    <string name="phone">Phone Number</string>
+    <string name="checkboxterms">By checking this box, you agree to our Terms and Conditions</string>
 </resources>
