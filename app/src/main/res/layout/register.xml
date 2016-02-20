@@ -61,7 +61,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/password"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:inputType="textPassword" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -88,8 +89,7 @@
         android:ems="10"
         android:id="@+id/phoneNumber"
         android:layout_gravity="center_horizontal"
-        android:inputType="phone"
-        android:textColor="#ff0507" />
+        android:inputType="phone" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -108,7 +108,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/registerResultText"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ff0507" />
 
     <Button
         android:layout_width="wrap_content"

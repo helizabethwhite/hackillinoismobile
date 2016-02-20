@@ -71,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
             resultText.setText("Please provide a password.");
         } else if (confirmPassword.length() == 0) {
             resultText.setText("Please provide a password confirmation.");
-        } else if (password != confirmPassword) {
+        } else if (!password.equals(confirmPassword)) {
             resultText.setText("Passwords don't match.");
         }else if (phoneNumber.length() == 0) {
             resultText.setText("Please provide a phone number.");
@@ -79,16 +79,18 @@ public class RegisterActivity extends AppCompatActivity {
         else
         {
             // CALL DATABASE AND THEN REDIRECT TO VERIFICATION PAGE
+            resultText.setText("");
+            new AttemptRegistration(resultText, username, password, firstName, lastName, phoneNumber, emailAddress);
 
-            Intent intent = new Intent(RegisterActivity.this, VerificationActivity.class);
+            /*Intent intent = new Intent(RegisterActivity.this, VerificationActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            startActivity(intent);*/
         }
 
 
     }
 
-    public class AttemptLogin {
+    public class AttemptRegistration {
 
         /**
          * Post param for username during login
@@ -99,6 +101,25 @@ public class RegisterActivity extends AppCompatActivity {
          * Post param for password during login
          */
         private final String PASSWORD = "password=";
+        /**
+         * Post param for password during login
+         */
+        private final String EMAIL = "emailAddress=";
+        /**
+         * Post param for username during login
+         */
+        private final String FIRSTNAME = "firstName=";
+
+        /**
+         * Post param for password during login
+         */
+        private final String LASTNAME = "lastName=";
+
+        /**
+         * Post param for username during login
+         */
+        private final String VERIFIED = "verified=";
+
 
         /**
          * Post param for magic so no randoms can attempt to access the login page
@@ -112,59 +133,65 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         /**
-         * The username and password the user input
+         * The user inputs
          */
         private String username = "";
         private String password = "";
+        private String firstName = "";
+        private String lastName = "";
+        private String phoneNumber = "";
+        private String emailAddress = "";
 
         /**
          * The results we process from the server response
          */
         private String results = "";
 
-
-        /*public AttemptRegister(final TextView view, final String username, final String password) {
+        /**
+         * Creates a new thread to attempt to register a user to the remote sever
+         * @param view
+         * @param username
+         * @param password
+         * @param firstName
+         * @param lastName
+         * @param phoneNumber
+         */
+        public AttemptRegistration(final TextView view, final String username, final String password, final String firstName, final String lastName, final String phoneNumber, final String emailAddress) {
 
             this.username = username;
             this.password = password;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.phoneNumber = phoneNumber;
+            this.emailAddress = emailAddress;
 
-            // Create a thread to login
+            // Create a thread to register
             new Thread(new Runnable() {
 
                 @Override
                 public void run() {
-                    String loginResult = login();
-                    results = loginResult;
+                    String registerResult = register();
+                    results = registerResult;
 
-                    /*if (results.equals("login success")) {
+                    if (results.equals("account created")) {
                         Handler handler = new Handler(Looper.getMainLooper());
 
-                        // Save credentials to the device for future use
+                        // Save phone number to phone for future use (text verification)
+                        SharedPreferences devicePreferences;
+                        devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = devicePreferences.edit();
+                        editor.putString("phone-number", phoneNumber);
+                        editor.commit();
 
-                        if (results.equals("login success")) {
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    //view.setText(results);
-                                }
-                            });
-                        }
-                    } else if (results.equals("not verified")){
-                        Handler handler = new Handler(Looper.getMainLooper());
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                                Intent intent = new Intent(RegisterActivity.this, VerificationActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
-                                //view.setText(results);
                             }
                         });
-                        // invalid credentials
-                    } else {
+                    }  else {
                         view.post(new Runnable() {
                             @Override
                             public void run() {
@@ -175,14 +202,14 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
             }).start();
-        }*/
+        }
 
-        public String login() {
+        public String register() {
             String serverResults = "";
 
-            String postData = USERNAME + username + "&" + PASSWORD + password + "&" + ANDROID_KEY + KEY;
+            String postData = USERNAME + username + "&" + PASSWORD + password + "&" + ANDROID_KEY + KEY+ "&" + FIRSTNAME + firstName + "&" + LASTNAME + lastName + "&" + EMAIL + emailAddress + "&" + VERIFIED + "0";
 
-            String urlStr = "http://devme.tech/login-mobile.php";
+            String urlStr = "http://devme.tech/register-mobile.php";
 
             try {
 
