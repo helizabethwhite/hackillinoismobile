@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             resultText.setText(bundle.getString(KICKED));*/
         }
 
-        SharedPreferences devicePreferences = getSharedPreferences("User", MODE_PRIVATE);
+        SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
 
         if (devicePreferences.contains("username")) {
 
@@ -153,20 +153,12 @@ public class MainActivity extends AppCompatActivity {
                         {
                             SharedPreferences devicePreferences;
 
-                            devicePreferences = getSharedPreferences("User", MODE_PRIVATE);
+                            devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
                             SharedPreferences.Editor editor = devicePreferences.edit();
                             editor.putString("username", username);
                             editor.putString("password", password);
                             editor.commit();
                         }
-
-                        SharedPreferences devicePreferences;
-
-                        devicePreferences = getSharedPreferences("User", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = devicePreferences.edit();
-                        editor.putString("temp_username", username);
-                        editor.putString("temp_password", password);
-                        editor.commit();
 
                         if (results.equals("login success")) {
                             handler.post(new Runnable() {

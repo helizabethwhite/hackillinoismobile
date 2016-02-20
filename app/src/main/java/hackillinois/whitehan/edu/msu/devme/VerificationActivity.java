@@ -50,7 +50,8 @@ public class VerificationActivity extends AppCompatActivity{
         SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
         if (devicePreferences.contains("phone-number")) {
             phoneNumber = devicePreferences.getString("phone-number", "");
-
+            username = devicePreferences.getString("username", "");
+            password = devicePreferences.getString("password", "");
             generateRand();
             sendText(phoneNumber);
         }

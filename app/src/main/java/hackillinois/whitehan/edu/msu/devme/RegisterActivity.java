@@ -178,6 +178,8 @@ public class RegisterActivity extends AppCompatActivity {
                         devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
                         SharedPreferences.Editor editor = devicePreferences.edit();
                         editor.putString("phone-number", phoneNumber);
+                        editor.putString("username", username);
+                        editor.putString("password", password);
                         editor.commit();
 
                         handler.post(new Runnable() {
