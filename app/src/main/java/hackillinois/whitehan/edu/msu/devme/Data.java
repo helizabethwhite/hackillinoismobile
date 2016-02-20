@@ -1,5 +1,6 @@
 package hackillinois.whitehan.edu.msu.devme;
 
+import android.util.Log;
 import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,10 @@ import android.widget.Toast;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,7 +26,7 @@ public class Data {
     private static final String LOGIN_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-cat.php";
     private static final String REGISTER_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-save.php";
     private static final String VERIFICATION_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-delete.php";
-    private static final String DASHBOARD_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-load.php";
+    private static final String DASHBOARD_URL = "http://devme.tech/dashboard-mobile.php";
     private static final String APPLY_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-load.php";
     private static final String ACCEPT_IDEA_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-load.php";
     private static final String CREATE_IDEA_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-load.php";
@@ -62,7 +65,7 @@ public class Data {
 
                 @Override
                 public void run() {
-                    ArrayList<Idea> newIdeas = getCatalog();
+                    ArrayList<Idea> newIdeas = getIdeas();
                     if(newIdeas != null) {
 
                         ideas = newIdeas;
@@ -97,10 +100,10 @@ public class Data {
          * Get the catalog items from the server
          * @return Array of items or null if failed
          */
-        public ArrayList<Idea> getCatalog() {
+        public ArrayList<Idea> getIdeas() {
             ArrayList<Idea> newIdeas = new ArrayList<Idea>();
 
-            // Create a GET query -- NOT DONE
+            // Create a GET query
             String query = DASHBOARD_URL;
 
             /**
@@ -112,11 +115,13 @@ public class Data {
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 int responseCode = conn.getResponseCode();
-                if(responseCode != HttpURLConnection.HTTP_OK) {
+                //HttpURLConnection.HTTP_OK
+                if(responseCode != 200) {
                     return null;
                 }
 
                 stream = conn.getInputStream();
+                //logStream(stream);
 
                 /**
                  * Create an XML parser for the result
@@ -137,7 +142,7 @@ public class Data {
                         if(xml.getName().equals("idea")) {
                             Idea idea = new Idea();
                             idea.title = xml.getAttributeValue(null, "title");
-                            idea.id = xml.getAttributeValue(null, "tech");
+                            idea.tech = xml.getAttributeValue(null, "tech");
                             idea.id = xml.getAttributeValue(null, "id");
                             newIdeas.add(idea);
                         }
@@ -236,5 +241,24 @@ public class Data {
             }
         } while(tag != XmlPullParser.END_TAG &&
                 tag != XmlPullParser.END_DOCUMENT);
+    }
+
+    /**
+     * logstream for debugging
+     * @param stream logstream
+     */
+    public static void logStream(InputStream stream) {
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(stream));
+
+        Log.e("476", "logStream: If you leave this in, code after will not work!");
+        try {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Log.e("476", line);
+            }
+        } catch (IOException ex) {
+            return;
+        }
     }
 }
