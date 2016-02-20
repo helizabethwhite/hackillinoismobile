@@ -1,11 +1,8 @@
 package hackillinois.whitehan.edu.msu.devme;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.ListView;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -16,29 +13,31 @@ public class DashboardActivity extends AppCompatActivity {
 
         if (bundle != null)
         {
-
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_create_account, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        // Find the list view
+        ListView list = (ListView)findViewById(R.id.listDashboard);
+
+        // Create an adapter
+        final Data.DashboardAdapter adapter = new Data.DashboardAdapter(list);
+        list.setAdapter(adapter);
+
+        /*
+        list.setOnItemClickListener(new ListView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position,  long id) {
+
+                // Get the id of the one we want to load
+                String catId = adapter.getIdeaId(position);
+
+                DashboardIdeaActivity idea = new DashboardIdeaActivity();
+                idea.setIdeaId(ideaId);
+            }
+
+        }); */
+
     }
+
 }

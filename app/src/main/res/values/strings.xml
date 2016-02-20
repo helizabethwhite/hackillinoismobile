@@ -15,4 +15,6 @@
     <string name="phoneDisclaimer">We will only use your phone number when verifiying your registration.</string>
     <string name="phone">Phone Number</string>
     <string name="checkboxterms">By checking this box, you agree to our Terms and Conditions</string>
+    <string name="new_idea">New Idea</string>
+    <string name="ideas_fail">Couldn't Load Ideas</string>
 </resources>
