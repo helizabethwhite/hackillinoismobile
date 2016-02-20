@@ -45,6 +45,9 @@
             android:name=".UserSettingsActivity"
             android:label="@string/app_name"></activity>
         <activity
+            android:name=".CreateIdeaActivity"
+            android:label="DevMe"></activity>
+        <activity
             android:name=".SplashScreen"
             android:label="@string/app_name">
             <intent-filter>

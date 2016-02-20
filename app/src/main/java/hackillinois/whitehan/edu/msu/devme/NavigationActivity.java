@@ -1,5 +1,6 @@
 package hackillinois.whitehan.edu.msu.devme;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
@@ -135,5 +136,10 @@ public class NavigationActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         return false;
+    }
+
+    public void onNewIdeaClick(MenuItem item) {
+        Intent intent = new Intent(NavigationActivity.this, CreateIdeaActivity.class);
+        startActivity(intent);
     }
 }

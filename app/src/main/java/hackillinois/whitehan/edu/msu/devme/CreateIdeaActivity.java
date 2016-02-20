@@ -68,11 +68,11 @@ public class CreateIdeaActivity extends AppCompatActivity {
         CheckBox checkBoxFourDev = (CheckBox) findViewById(R.id.checkFourDev);
 
         if (checkBoxWeb.isChecked()) {
-            tech = "Web Application";
+            tech = "Web";
         } else if(checkBoxMobile.isChecked()) {
-            tech = "Mobile Application";
+            tech = "Mobile";
         } else if(checkBoxDesktop.isChecked()) {
-            tech = "Desktop Application";
+            tech = "Desktop";
         } else {
             resultText.setText("Please choose an application type for your idea.");
         }
@@ -169,13 +169,13 @@ public class CreateIdeaActivity extends AppCompatActivity {
                     String createResult = create();
                     results = createResult;
 
-                    if (results.equals("New idea created")) {
+                    if (results.equals("idea created")) {
                         Handler handler = new Handler(Looper.getMainLooper());
 
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(CreateIdeaActivity.this, DashboardActivity.class);
+                                Intent intent = new Intent(CreateIdeaActivity.this, NavigationActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                             }

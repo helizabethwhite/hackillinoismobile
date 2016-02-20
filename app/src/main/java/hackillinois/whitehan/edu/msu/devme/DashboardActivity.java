@@ -40,9 +40,4 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
-    public void createIdeaClick(View view) {
-        Intent intent = new Intent(this, CreateIdeaActivity.class);
-        startActivity(intent);
-    }
-
 }
