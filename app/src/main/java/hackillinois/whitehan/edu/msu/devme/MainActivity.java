@@ -1,52 +1,239 @@
 package hackillinois.whitehan.edu.msu.devme;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String USERNAME = "edu.msu.devme.USERNAME";
+    public static final String PASSWORD = "edu.msu.devme.PASSWORD";
+
+    private boolean rememberMe = false;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
+        if (bundle != null)
+        {
+            // Clear preferences so that user doesn't automatically log in again and can see
+            // the kicked message
+            SharedPreferences device_preferences = getSharedPreferences("User", MODE_PRIVATE);
+            SharedPreferences.Editor editor = device_preferences.edit();
+            editor.remove("username");   // This will delete your preferences
+            editor.remove("password");
+            editor.apply();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            // Alert user that they've been kicked from the game
+            /*TextView resultText = (TextView)findViewById(R.id.resultText);
+            resultText.setText(bundle.getString(KICKED));*/
         }
 
-        return super.onOptionsItemSelected(item);
+        SharedPreferences devicePreferences = getSharedPreferences("User", MODE_PRIVATE);
+
+        if (devicePreferences.contains("username")) {
+
+            TextView resultText = (TextView)findViewById(R.id.resultText);
+            String username = devicePreferences.getString("username", "");
+            String password = devicePreferences.getString("password", "");
+            new AttemptLogin(resultText, username, password);
+        }
+
+    }
+
+
+    public void LoginClick(View view) {
+        EditText usernameTextBox = (EditText)findViewById(R.id.usernameText);
+        EditText passwordTextBox = (EditText)findViewById(R.id.passwordText);
+        TextView resultText = (TextView)findViewById(R.id.resultText);
+
+        String username = usernameTextBox.getText().toString();
+        String password = passwordTextBox.getText().toString();
+
+        if (username.length() == 0 || password.length() == 0)
+        {
+            resultText.setText("Please provide a username and/or password.");
+        }
+        else
+        {
+            /*resultText.setText("");
+            new AttemptLogin(resultText, username, password);*/
+        }
+
+    }
+
+    public void createAccountClick(View view) {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    public void rememberMeClick(View view) {
+        rememberMe = !rememberMe;
+    }
+
+    public class AttemptLogin {
+
+        /**
+         * Post param for username during login
+         */
+        private final String USERNAME = "username=";
+
+        /**
+         * Post param for password during login
+         */
+        private final String PASSWORD = "password=";
+
+        /**
+         * Post param for magic so no randoms can attempt to access the login page
+         */
+        private final String ANDROID_KEY = "androidKey=";
+
+        /**
+         * The key that lets us access the login page
+         */
+        private final String KEY = "qweSghERgtrjhFrh";
+
+
+        /**
+         * The username and password the user input
+         */
+        private String username = "";
+        private String password = "";
+
+        /**
+         * The results we process from the server response
+         */
+        private String results = "";
+
+        /**
+         * Creates a new thread to attempt to login to the remote sever
+         * @param view
+         * @param username
+         * @param password
+         */
+        public AttemptLogin(final TextView view, final String username, final String password) {
+
+            this.username = username;
+            this.password = password;
+
+            // Create a thread to login
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    String loginResult = login();
+                    results = loginResult;
+
+                    if (results.equals("login success") || results.equals("joined game")) {
+                        Handler handler = new Handler(Looper.getMainLooper());
+
+                        // Save credentials to the device for future use
+                        if (rememberMe)
+                        {
+                            SharedPreferences devicePreferences;
+
+                            devicePreferences = getSharedPreferences("User", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = devicePreferences.edit();
+                            editor.putString("username", username);
+                            editor.putString("password", password);
+                            editor.commit();
+                        }
+
+                        SharedPreferences devicePreferences;
+
+                        devicePreferences = getSharedPreferences("User", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = devicePreferences.edit();
+                        editor.putString("temp_username", username);
+                        editor.putString("temp_password", password);
+                        editor.commit();
+
+                        if (results.equals("login success")) {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+                    } else {
+                        view.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                view.setText(results);
+                            }
+                        });
+                    }
+                }
+
+            }).start();
+        }
+
+        public String login() {
+            String serverResults = "";
+
+            String postData = USERNAME + username + "&" + PASSWORD + password + "&" + ANDROID_KEY + KEY;
+
+            String urlStr = "https://cse.msu.edu/~wiechecm/login.php";
+
+            try {
+
+                byte[] postDataArray = postData.getBytes();
+                URL url = new URL(urlStr);
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                connection.setDoOutput(true);
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Length", Integer.toString(postDataArray.length));
+                connection.setUseCaches(false);
+
+                OutputStream out = connection.getOutputStream();
+                out.write(postDataArray);
+                out.close();
+
+                int responseCode = connection.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    InputStream stream = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+                    String line;
+                    while((line = reader.readLine()) != null) {
+                        serverResults += line;
+                    }
+                    reader.close();
+                }
+
+            } catch (MalformedURLException e) {
+                return "malformed url";
+            } catch (ProtocolException e) {
+                return "post exception";
+            } catch (IOException e) {
+                return "io exception";
+            }
+
+            return serverResults;
+        }
     }
 }
