@@ -1,5 +1,6 @@
 package hackillinois.whitehan.edu.msu.devme;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,12 @@ public class DashboardActivity extends AppCompatActivity {
             }
 
         }); */
+
+    }
+
+    public void createIdeaClick(View view) {
+        Intent intent = new Intent(this, CreateIdeaActivity.class);
+        startActivity(intent);
     }
 
 }
