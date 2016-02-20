@@ -17,4 +17,10 @@
     <string name="checkboxterms">By checking this box, you agree to our Terms and Conditions</string>
     <string name="new_idea">New Idea</string>
     <string name="ideas_fail">Error Loading Ideas</string>
+    <string name="title">Title:</string>
+    <string name="web_application">Web Application</string>
+    <string name="mobile_application">Mobile Application</string>
+    <string name="desktop_application">Desktop Application</string>
+    <string name="description">Description: </string>
+    <string name="casual_with_explanation">Casual (Share your idea and let the devs take it from there!)</string>
 </resources>
