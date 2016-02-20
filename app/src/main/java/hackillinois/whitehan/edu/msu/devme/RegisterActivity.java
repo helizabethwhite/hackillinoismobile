@@ -22,9 +22,6 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-/**
- * Created by kayla on 2/20/2016.
- */
 public class RegisterActivity extends AppCompatActivity {
 
     @Override
