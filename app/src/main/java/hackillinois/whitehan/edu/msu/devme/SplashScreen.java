@@ -1,14 +1,13 @@
 package hackillinois.whitehan.edu.msu.devme;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,37 +17,23 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+
 import javax.net.ssl.HttpsURLConnection;
 
+/**
+ * Created by hewhite on 2/20/16.
+ */
+public class SplashScreen extends Activity {
 
-public class MainActivity extends AppCompatActivity {
 
     public static final String GLOBAL_USERNAME = "edu.msu.whitehan.USERNAME";
     public static final String GLOBAL_PASSWORD = "edu.msu.whitehan.PASSWORD";
 
-
-    private boolean rememberMe = false;
-
-
     @Override
-    protected void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        setContentView(R.layout.activity_main);
-
-        if (bundle != null)
-        {
-            // Clear preferences so that user doesn't automatically log in again and can see
-            // the kicked message
-            SharedPreferences device_preferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
-            SharedPreferences.Editor editor = device_preferences.edit();
-            editor.remove("username");   // This will delete your preferences
-            editor.remove("password");
-            editor.apply();
-
-            // Alert user that they've been kicked from the game
-            /*TextView resultText = (TextView)findViewById(R.id.resultText);
-            resultText.setText(bundle.getString(KICKED));*/
-        }
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.splash);
 
         SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
 
@@ -58,38 +43,12 @@ public class MainActivity extends AppCompatActivity {
             String username = devicePreferences.getString("username", "");
             String password = devicePreferences.getString("password", "");
             new AttemptLogin(resultText, username, password);
+        } else {
+            // redirect user to login screen
+            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
-
-    }
-
-
-    public void LoginClick(View view) {
-        EditText usernameTextBox = (EditText)findViewById(R.id.usernameText);
-        EditText passwordTextBox = (EditText)findViewById(R.id.passwordText);
-        TextView resultText = (TextView)findViewById(R.id.resultText);
-
-        String username = usernameTextBox.getText().toString();
-        String password = passwordTextBox.getText().toString();
-
-        if (username.length() == 0 || password.length() == 0)
-        {
-            resultText.setText("Please provide a username and/or password.");
-        }
-        else
-        {
-            resultText.setText("");
-            new AttemptLogin(resultText, username, password);
-        }
-
-    }
-
-    public void createAccountClick(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }
-
-    public void rememberMeClick(View view) {
-        rememberMe = !rememberMe;
     }
 
     public class AttemptLogin {
@@ -145,53 +104,46 @@ public class MainActivity extends AppCompatActivity {
                     String loginResult = login();
                     results = loginResult;
 
+                    Handler handler = new Handler(Looper.getMainLooper());
                     if (results.equals("login success")) {
-                        Handler handler = new Handler(Looper.getMainLooper());
-
-                        // Save credentials to the device for future use
-                        if (rememberMe)
-                        {
-                            SharedPreferences devicePreferences;
-
-                            devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = devicePreferences.edit();
-                            editor.putString("username", username);
-                            editor.putString("password", password);
-                            editor.commit();
-                        }
-
-                        if (results.equals("login success")) {
-                            handler.post(new Runnable() {
+                        handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                                    Intent intent = new Intent(SplashScreen.this, DashboardActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
-                                    //view.setText(results);
                                 }
                             });
-                        }
                     } else if (results.equals("not verified")){
-                        Handler handler = new Handler(Looper.getMainLooper());
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(MainActivity.this, VerificationActivity.class);
+                                Intent intent = new Intent(SplashScreen.this, VerificationActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
                                 // pass these along for verification rather than storing them on the phone
                                 intent.putExtra(GLOBAL_USERNAME, username);
                                 intent.putExtra(GLOBAL_PASSWORD, password);
                                 startActivity(intent);
-                                //view.setText(results);
                             }
                         });
                         // invalid credentials
                     } else {
-                        view.post(new Runnable() {
+                        handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                view.setText(results);
+
+                                // remove saved login info so that login process must be redone
+                                SharedPreferences device_preferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = device_preferences.edit();
+                                editor.remove("username");   // This will delete your preferences
+                                editor.remove("password");
+                                editor.apply();
+
+                                // redirect user to login screen
+                                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
                             }
                         });
                     }
