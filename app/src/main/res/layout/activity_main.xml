@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/usernameText"
         android:layout_gravity="center_horizontal"
         android:password="false"
         android:layout_marginTop="200dp" />
@@ -31,21 +31,39 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/passwordText"
         android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/resultText"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ff0507" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remember"
+        android:id="@+id/rememberMe"
+        android:layout_gravity="center_horizontal"
+        android:onClick="rememberMeClick" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login"
         android:id="@+id/button"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:onClick="LoginClick" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/newuser"
-        android:id="@+id/button2"
-        android:layout_gravity="center_horizontal" />
+        android:id="@+id/signUp"
+        android:layout_gravity="center_horizontal"
+        android:onClick="createAccountClick" />
 </LinearLayout>

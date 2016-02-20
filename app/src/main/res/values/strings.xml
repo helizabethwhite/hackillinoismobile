@@ -5,4 +5,5 @@
     <string name="login">Login</string>
     <string name="newuser">New here? Sign up here.</string>
     <string name="next">Next</string>
+    <string name="remember">Remember Me</string>
 </resources>
