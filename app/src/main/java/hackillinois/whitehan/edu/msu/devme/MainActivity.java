@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                                    Intent intent = new Intent(MainActivity.this, NavigationActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     //view.setText(results);

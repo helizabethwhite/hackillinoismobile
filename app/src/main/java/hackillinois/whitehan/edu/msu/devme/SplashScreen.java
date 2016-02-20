@@ -49,6 +49,8 @@ public class SplashScreen extends Activity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
+
+
     }
 
     public class AttemptLogin {
@@ -109,7 +111,7 @@ public class SplashScreen extends Activity {
                         handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(SplashScreen.this, DashboardActivity.class);
+                                    Intent intent = new Intent(SplashScreen.this, NavigationActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                 }

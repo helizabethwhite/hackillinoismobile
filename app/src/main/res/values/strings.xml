@@ -31,4 +31,8 @@
     <string name="resend">Resend Code</string>
     <string name="ip">Intellectual Property Agreement</string>
     <string name="accept">Accept</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>

@@ -165,7 +165,7 @@ public class VerificationActivity extends AppCompatActivity{
                         handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(VerificationActivity.this, DashboardActivity.class);
+                                    Intent intent = new Intent(VerificationActivity.this, NDAActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     //view.setText(results);

@@ -22,7 +22,7 @@ public class NDAActivity extends AppCompatActivity{
 
 
     public void onAcceptClick(View view) {
-        Intent intent = new Intent(NDAActivity.this, DashboardActivity.class);
+        Intent intent = new Intent(NDAActivity.this, NavigationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
