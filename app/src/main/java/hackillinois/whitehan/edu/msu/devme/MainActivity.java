@@ -23,6 +23,9 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String GLOBAL_USERNAME = "edu.msu.whitehan.USERNAME";
+    public static final String GLOBAL_PASSWORD = "edu.msu.whitehan.PASSWORD";
+
 
     private boolean rememberMe = false;
 
@@ -171,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
                                 public void run() {
                                     Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+
                                     startActivity(intent);
                                     //view.setText(results);
                                 }
@@ -181,8 +186,12 @@ public class MainActivity extends AppCompatActivity {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                                Intent intent = new Intent(MainActivity.this, VerificationActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                // pass these along for verification rather than storing them on the phone
+                                intent.putExtra(GLOBAL_USERNAME, username);
+                                intent.putExtra(GLOBAL_PASSWORD, password);
                                 startActivity(intent);
                                 //view.setText(results);
                             }

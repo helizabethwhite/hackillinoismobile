@@ -16,5 +16,11 @@
     <string name="phone">Phone Number</string>
     <string name="checkboxterms">By checking this box, you agree to our Terms and Conditions</string>
     <string name="new_idea">New Idea</string>
-    <string name="ideas_fail">Couldn't Load Ideas</string>
+    <string name="ideas_fail">Couldn\'t Load Ideas</string>
+    <string name="completeregistration">Complete Registration</string>
+    <string name="verificationdescription1">You should receive a 4-digit verification code via text.</string>
+    <string name="verificationinstruction">Enter the 4-digit verification code here:</string>
+    <string name="done">Done</string>
+    <string name="resendverification">Didn\'t receive a text?</string>
+    <string name="resend">Resend Code</string>
 </resources>
