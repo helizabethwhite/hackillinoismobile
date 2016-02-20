@@ -28,7 +28,6 @@ public class Data {
     private static final String LOGIN_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-cat.php";
     private static final String REGISTER_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-save.php";
     private static final String VERIFICATION_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-delete.php";
-    private static final String NDA_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-load.php";
     private static final String DASHBOARD_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-load.php";
     private static final String APPLY_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-load.php";
     private static final String ACCEPT_IDEA_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-load.php";

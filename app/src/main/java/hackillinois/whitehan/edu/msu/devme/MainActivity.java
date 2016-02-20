@@ -23,8 +23,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String USERNAME = "edu.msu.devme.USERNAME";
-    public static final String PASSWORD = "edu.msu.devme.PASSWORD";
 
     private boolean rememberMe = false;
 
@@ -76,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            /*resultText.setText("");
-            new AttemptLogin(resultText, username, password);*/
+            resultText.setText("");
+            new AttemptLogin(resultText, username, password);
         }
 
     }
@@ -144,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     String loginResult = login();
                     results = loginResult;
 
-                    if (results.equals("login success") || results.equals("joined game")) {
+                    if (results.equals("login success")) {
                         Handler handler = new Handler(Looper.getMainLooper());
 
                         // Save credentials to the device for future use
@@ -174,9 +172,22 @@ public class MainActivity extends AppCompatActivity {
                                     Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
+                                    //view.setText(results);
                                 }
                             });
                         }
+                    } else if (results.equals("not verified")){
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                //view.setText(results);
+                            }
+                        });
+                        // invalid credentials
                     } else {
                         view.post(new Runnable() {
                             @Override
@@ -195,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
             String postData = USERNAME + username + "&" + PASSWORD + password + "&" + ANDROID_KEY + KEY;
 
-            String urlStr = "https://cse.msu.edu/~wiechecm/login.php";
+            String urlStr = "http://devme.tech/login-mobile.php";
 
             try {
 
