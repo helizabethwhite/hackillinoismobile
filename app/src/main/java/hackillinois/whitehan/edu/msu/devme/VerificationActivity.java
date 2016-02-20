@@ -1,9 +1,11 @@
 package hackillinois.whitehan.edu.msu.devme;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class VerificationActivity extends AppCompatActivity{
     @Override
@@ -14,6 +16,14 @@ public class VerificationActivity extends AppCompatActivity{
         if (bundle != null)
         {
 
+        }
+
+        // get saved phone number from phone
+        SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+        if (devicePreferences.contains("phone-number")) {
+            String phoneNumber = devicePreferences.getString("phone-number", "");
+
+            // DO TEXT VERIFICATION HERE USING TEXT MESSAGE
         }
     }
 
