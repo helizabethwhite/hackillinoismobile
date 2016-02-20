@@ -15,6 +15,7 @@
 
     <!-- controls the list of menu items -->
     <ListView
+        android:layout_marginTop="50dp"
         android:id="@+id/navList"
         android:layout_width="200dp"
         android:layout_height="match_parent"

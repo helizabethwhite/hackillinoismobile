@@ -1,6 +1,7 @@
 package hackillinois.whitehan.edu.msu.devme;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
@@ -98,17 +99,29 @@ public class NavigationActivity extends AppCompatActivity
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = null;
                 if (position == MY_CONTENT) {
-
+                    intent = new Intent(NavigationActivity.this, IdeasActivity.class);
                 } else if (position == MY_PROJECTS) {
-
+                    intent = new Intent(NavigationActivity.this, ProjectsActivity.class);
                 } else if (position == SETTINGS) {
-
+                    intent = new Intent(NavigationActivity.this, UserSettingsActivity.class);
                 } else if (position == PROFILE) {
-
+                    intent = new Intent(NavigationActivity.this, ProfileActivity.class);
                 } else if (position == LOG_OUT) {
+                    // remove the preferences (stored login data)
+                    SharedPreferences device_preferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = device_preferences.edit();
+                    editor.remove("username");   // This will delete your preferences
+                    editor.remove("password");
+                    editor.apply();
+
+                    intent = new Intent(NavigationActivity.this, MainActivity.class);
+                    // prevent the user from being able to hit the back button
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 }
+                startActivity(intent);
             }
         });
     }
