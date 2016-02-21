@@ -45,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
             editor.remove("password");
             editor.apply();
 
-            // Alert user that they've been kicked from the game
-            /*TextView resultText = (TextView)findViewById(R.id.resultText);
-            resultText.setText(bundle.getString(KICKED));*/
         }
 
         SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);

@@ -38,4 +38,9 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="plus">New Idea</string>
     <string name="ip_disclosure">By choosing this option, you are releasing your intellectual property rights to this idea.</string>
+    <string name="dummy_apply">Dummy Apply</string>
+    <string name="dummy_title">Dummy Title</string>
+    <string name="dummy_tech">Dummy Tech</string>
+    <string name="dummy_user">Dummer Username</string>
+    <string name="dummy_description">Dummy Description</string>
 </resources>

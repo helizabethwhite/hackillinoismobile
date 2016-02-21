@@ -3,6 +3,8 @@ package hackillinois.whitehan.edu.msu.devme;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -47,6 +49,27 @@ public class NavigationActivity extends AppCompatActivity
         // Create an adapter -- for the main page (ideas)
         final Data.DashboardAdapter adapter = new Data.DashboardAdapter(list);
         list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new ListView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Handler handler = new Handler(Looper.getMainLooper());
+
+                final String Id = adapter.getId(position);
+
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(NavigationActivity.this, IdeaActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("ID", Id);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
 
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
