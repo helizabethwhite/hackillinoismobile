@@ -2,12 +2,20 @@ package hackillinois.whitehan.edu.msu.devme;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,6 +27,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
+
+import static hackillinois.whitehan.edu.msu.devme.R.drawable.wallup;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +44,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_main);
+
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.relLayout);
+        //layout.setBackground(R.drawable.wallup);
+        //layout.setBackgroundResource(R.drawable.wallup);
+
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(),
+                R.drawable.wallup);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                bmp, 600, 600, false);
+        BitmapDrawable ob = new BitmapDrawable(getResources(), resizedBitmap);
+        layout.setBackground(ob);
 
         if (bundle != null)
         {

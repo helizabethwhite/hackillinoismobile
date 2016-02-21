@@ -3,10 +3,18 @@ package hackillinois.whitehan.edu.msu.devme;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,7 +46,20 @@ public class SplashScreen extends Activity {
         setContentView(R.layout.splash);
 
 
-        Firebase.setAndroidContext(this.getApplicationContext());
+        LinearLayout layout = (LinearLayout) findViewById(R.id.splashLayout);
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(),
+                R.drawable.wallup);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                bmp, 600, 600, false);
+        BitmapDrawable ob = new BitmapDrawable(getResources(), resizedBitmap);
+        layout.setBackground(ob);
+
+        /*splash.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, 3000);*/
 
         SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
 
