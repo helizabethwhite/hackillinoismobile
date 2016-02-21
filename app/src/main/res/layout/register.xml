@@ -4,68 +4,52 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="#b90d1419"
+    android:background="#132939"
     android:theme="@style/Base.Theme.AppCompat.Light.Dialog">
 
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView2" >
+        android:id="@+id/scrollView2">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/firstname"
-                android:id="@+id/textViewFirstName"
-                android:textColor="#ffffff" />
-
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/firstName"
                 android:theme="@style/Base.Theme.AppCompat.Light.Dialog"
-                android:textColor="#ffffff" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lastname"
-                android:id="@+id/textViewLastName"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:hint="first name"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#ffffff" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/lastName"
                 android:theme="@style/Base.Theme.AppCompat.Light.Dialog"
-                android:textColor="#ffffff" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/username"
-                android:id="@+id/textViewUsername"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:hint="last name"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#ffffff" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/username"
                 android:theme="@style/Base.Theme.AppCompat.Light.Dialog"
-                android:textColor="#ffffff" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/email"
-                android:id="@+id/textViewEmail"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:hint="username"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#ffffff" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -73,14 +57,11 @@
                 android:id="@+id/emailAddress"
                 android:layout_gravity="center_horizontal"
                 android:theme="@style/Base.Theme.AppCompat.Light.Dialog"
-                android:textColor="#ffffff" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/password"
-                android:id="@+id/textViewPassword"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:hint="email address"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#ffffff" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -89,14 +70,11 @@
                 android:layout_gravity="center_horizontal"
                 android:inputType="textPassword"
                 android:theme="@style/Base.Theme.AppCompat.Light.Dialog"
-                android:textColor="#ffffff" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/confirmpassword"
-                android:id="@+id/textViewConfirmPassword"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:hint="password"
+                android:textColorHint="#ffffff"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#ffffff" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -105,14 +83,11 @@
                 android:ems="10"
                 android:id="@+id/confirmPassword"
                 android:theme="@style/Base.Theme.AppCompat.Light.Dialog"
-                android:textColor="#ffffff" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/phone"
-                android:id="@+id/textViewPhoneNumber"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:hint="confirm password"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#ffffff" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -122,7 +97,11 @@
                 android:layout_gravity="center_horizontal"
                 android:inputType="phone"
                 android:theme="@style/Base.Theme.AppCompat.Light.Dialog"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:hint="phone number"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#ffffff" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -130,7 +109,8 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/phoneDisclaimer"
                 android:id="@+id/textView2"
-                android:textColor="#969696" />
+                android:textColor="#ffffff"
+                android:layout_marginTop="10dp" />
 
             <CheckBox
                 android:layout_width="wrap_content"
@@ -138,8 +118,10 @@
                 android:text="@string/checkboxterms"
                 android:id="@+id/checkBoxTerms"
                 android:theme="@style/Base.Theme.AppCompat.Light.Dialog"
-                android:layout_margin="5dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -155,7 +137,8 @@
                 android:text="@string/next"
                 android:id="@+id/next"
                 android:layout_gravity="center_horizontal|right"
-                android:onClick="onNextClick" />
+                android:onClick="onNextClick"
+                android:background="#9cbf89" />
         </LinearLayout>
     </ScrollView>
 

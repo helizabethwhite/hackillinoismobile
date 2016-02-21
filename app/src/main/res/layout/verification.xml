@@ -65,7 +65,9 @@
                 android:text="@string/done"
                 android:id="@+id/buttonDone"
                 android:layout_gravity="center_horizontal"
-                android:onClick="onDoneClick" />
+                android:onClick="onDoneClick"
+                android:background="#9cbf89"
+                android:padding="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
