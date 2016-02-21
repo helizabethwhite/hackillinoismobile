@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Xml;
 import android.widget.TextView;
 import java.io.BufferedReader;
@@ -42,18 +43,21 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
 
-        if (savedInstanceState != null) {
-            profileUsername = savedInstanceState.getString(PROFILE_USERNAME);
-        }
+        //if (savedInstanceState != null) {
+            //profileUsername = savedInstanceState.getString(PROFILE_USERNAME);
+        //}
 
         SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
 
-        if (devicePreferences.contains("username")) {
+        if (getIntent().hasExtra(PROFILE_USERNAME)) {
+            username = getIntent().getStringExtra(PROFILE_USERNAME);
+        } else if (devicePreferences.contains("username")) {
             username = devicePreferences.getString("username", "");
         }
 
         TextView resultText = (TextView) findViewById(R.id.profileResultsText);
         new GetProfileData(resultText, username);
+        //displayData();
     }
 
     public void displayData() {
@@ -62,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
         TextView last = (TextView) findViewById(R.id.textViewLastName);
         TextView userName = (TextView) findViewById(R.id.textViewUsername);
         TextView aboutMe = (TextView) findViewById(R.id.textViewAboutMe);
+        TextView email = (TextView) findViewById(R.id.textViewEmail);
 
         /*SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
 
@@ -84,6 +89,8 @@ public class ProfileActivity extends AppCompatActivity {
             first.setText(profile.firstName);
             last.setText(profile.lastName);
             aboutMe.setText(profile.aboutMe);
+            email.setText(profile.email);
+            Log.d("email after set", profile.email );
 
             welcome.invalidate();
         }
@@ -132,15 +139,13 @@ public class ProfileActivity extends AppCompatActivity {
          */
         public GetProfileData(final TextView view, final String username) {
 
-            this.username = username;
-
             // Create a thread to register
             new Thread(new Runnable() {
 
                 @Override
                 public void run() {
 
-                    myProfiles = getData();
+                    myProfiles = getData(username);
 
                     if(myProfiles != null) {
                         view.post(new Runnable() {
@@ -158,11 +163,13 @@ public class ProfileActivity extends AppCompatActivity {
             }).start();
         }
 
-        public ArrayList<Profile> getData() {
+        public ArrayList<Profile> getData(String username) {
+
+            Log.d("getdata", "getdata");
 
             ArrayList<Profile> profiles = new ArrayList<Profile>();
 
-            String postData = USERNAME + username + "&" + ANDROID_KEY + KEY;
+            String postData = USERNAME + username;
 
             String urlStr = "http://devme.tech/get-user-profile.php";
 
@@ -205,6 +212,7 @@ public class ProfileActivity extends AppCompatActivity {
                             if(xml.getName().equals("profile")) {
                                 Profile profile = new Profile();
                                 profile.firstName = xml.getAttributeValue(null, "firstName");
+                                Log.d("first", profile.firstName);
                                 profile.lastName = xml.getAttributeValue(null, "lastName");
                                 profile.email = xml.getAttributeValue(null, "email");
                                 profile.aboutMe = xml.getAttributeValue(null, "aboutMe");

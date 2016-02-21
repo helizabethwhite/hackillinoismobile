@@ -3,6 +3,8 @@ package hackillinois.whitehan.edu.msu.devme;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Xml;
@@ -63,19 +65,12 @@ public class IdeaActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(casual == 1){
-            applyAccept = "Accept";
-        } else {
-            applyAccept = "Apply";
-        }
 
-        Button buttonApplyAccept = (Button) findViewById(R.id.buttonApplyAccept);
         TextView textFullTitle = (TextView) findViewById(R.id.textFullTitle);
         TextView textFullDescription = (TextView) findViewById(R.id.textFullDescription);
         TextView textFullTech = (TextView) findViewById(R.id.textFullTech);
-        TextView textFullUsername = (TextView) findViewById(R.id.textFullUsername);
+        Button textFullUsername = (Button) findViewById(R.id.textFullUsername);
 
-        buttonApplyAccept.setText(applyAccept);
         Log.d("YourTag", "display");
         textFullTitle.setText(title);
         textFullDescription.setText(description);
@@ -184,6 +179,20 @@ public class IdeaActivity extends AppCompatActivity {
             }
         } while(tag != XmlPullParser.END_TAG &&
                 tag != XmlPullParser.END_DOCUMENT);
+    }
+
+    public void onIdeaUserClick(View view){
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(IdeaActivity.this, ProfileActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(ProfileActivity.PROFILE_USERNAME, user);
+                        startActivity(intent);
+            }
+        });
     }
 
 }
