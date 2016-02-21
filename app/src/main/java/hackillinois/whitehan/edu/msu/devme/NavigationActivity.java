@@ -16,16 +16,19 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private String username;
+    private String password;
+
     private static final int MY_CONTENT = 0;
     private static final int MY_PROJECTS = 1;
-    private static final int PROFILE = 2;
-    private static final int SETTINGS = 3;
-    private static final int LOG_OUT = 4;
+    private static final int MESSAGES = 2;
+    private static final int PROFILE = 3;
+    private static final int SETTINGS = 4;
+    private static final int LOG_OUT = 5;
 
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
@@ -39,6 +42,14 @@ public class NavigationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
+        SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+
+        if (devicePreferences.contains("username")) {
+            username = devicePreferences.getString("username", "");
+            password = devicePreferences.getString("password", "");
+        }
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,7 +103,7 @@ public class NavigationActivity extends AppCompatActivity
     }
 
     private void addDrawerItems() {
-        String[] osArray = {"My Content", "My Projects", "Settings", "Profile", "Log Out" };
+        String[] osArray = {"My Content", "My Projects","Messages", "Settings", "Profile", "Log Out" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -108,6 +119,8 @@ public class NavigationActivity extends AppCompatActivity
                     intent = new Intent(NavigationActivity.this, UserSettingsActivity.class);
                 } else if (position == PROFILE) {
                     intent = new Intent(NavigationActivity.this, ProfileActivity.class);
+                } else if (position == MESSAGES) {
+                    intent = new Intent(NavigationActivity.this, MessagesActivity.class);
                 } else if (position == LOG_OUT) {
                     // remove the preferences (stored login data)
                     SharedPreferences device_preferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);

@@ -23,6 +23,9 @@ import java.util.ArrayList;
 
 public class Data {
 
+    private String username;
+    private String password;
+
     private static final String LOGIN_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-cat.php";
     private static final String REGISTER_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-save.php";
     private static final String VERIFICATION_URL = "http://webdev.cse.msu.edu/~grotskyk/cse476/step6/hatter-delete.php";

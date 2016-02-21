@@ -149,8 +149,7 @@ public class MainActivity extends AppCompatActivity {
                         Handler handler = new Handler(Looper.getMainLooper());
 
                         // Save credentials to the device for future use
-                        if (rememberMe)
-                        {
+
                             SharedPreferences devicePreferences;
 
                             devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
@@ -158,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                             editor.putString("username", username);
                             editor.putString("password", password);
                             editor.commit();
-                        }
+
 
                         if (results.equals("login success")) {
                             handler.post(new Runnable() {
@@ -179,9 +178,15 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(MainActivity.this, VerificationActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                                // pass these along for verification rather than storing them on the phone
-                                intent.putExtra(GLOBAL_USERNAME, username);
-                                intent.putExtra(GLOBAL_PASSWORD, password);
+                                // pass these along for verification
+                                SharedPreferences devicePreferences;
+
+                                devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = devicePreferences.edit();
+                                editor.putString("username", username);
+                                editor.putString("password", password);
+                                editor.commit();
+
                                 startActivity(intent);
                                 //view.setText(results);
                             }
