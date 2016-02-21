@@ -3,70 +3,88 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/completeregistration"
-        android:id="@+id/verificationHeader"
-        android:textSize="35dp"
-        android:textIsSelectable="true"
-        android:textColor="#000000"
-        android:layout_gravity="center_horizontal" />
+        android:id="@+id/scrollView3" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/verificationdescription1"
-        android:id="@+id/verificationDescription1"
-        android:textSize="20sp"
-        android:layout_marginTop="40dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/verificationinstruction"
-        android:id="@+id/verificationDescription2"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/completeregistration"
+                android:id="@+id/verificationHeader"
+                android:textSize="35dp"
+                android:textIsSelectable="true"
+                android:textColor="#000000"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/verificationCodeTextBox"
-        android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/verificationdescription1"
+                android:id="@+id/verificationDescription1"
+                android:textSize="20sp"
+                android:layout_marginTop="40dp"
+                android:textColor="#000000" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/verificationResultText"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_gravity="center_horizontal"
-        android:textColor="#ff0507" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/verificationinstruction"
+                android:id="@+id/verificationDescription2"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                android:textColor="#000000" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/done"
-        android:id="@+id/buttonDone"
-        android:layout_gravity="center_horizontal"
-        android:onClick="onDoneClick" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/verificationCodeTextBox"
+                android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/resendverification"
-        android:id="@+id/textViewResend"
-        android:textSize="20sp"
-        android:layout_marginTop="60dp"
-        android:singleLine="true"
-        android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/verificationResultText"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#ff0507" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/resend"
-        android:id="@+id/button2"
-        android:layout_gravity="center_horizontal" />
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/done"
+                android:id="@+id/buttonDone"
+                android:layout_gravity="center_horizontal"
+                android:onClick="onDoneClick" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/resendverification"
+                android:id="@+id/textViewResend"
+                android:textSize="20sp"
+                android:layout_marginTop="60dp"
+                android:singleLine="true"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#000000" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/resend"
+                android:id="@+id/button2"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
