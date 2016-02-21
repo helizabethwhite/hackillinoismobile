@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,14 +25,11 @@ import java.util.ArrayList;
 
 public class IdeaActivity extends AppCompatActivity {
 
-    private static class fullIdea {
-        public String title = "";
-        public String tech = "";
-        public String id = "";
-        public String user = "";
-        public int casual = 0;
-        public String description = "";
-    }
+    public String title = "";
+    public String tech = "";
+    public String user = "";
+    public String description = "";
+    public int casual = 0;
 
 
     public String applyAccept = "";
@@ -47,9 +45,25 @@ public class IdeaActivity extends AppCompatActivity {
             id = getIntent().getStringExtra(ID);
         }
 
-        fullIdea currentIdea = getIdea(id);
+        //Log.d("YourTag", "YourOutput");
 
-        if(currentIdea.casual == 1){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                getIdea(id);
+                Log.d("MyTag", id);
+            }
+        });
+
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if(casual == 1){
             applyAccept = "Accept";
         } else {
             applyAccept = "Apply";
@@ -62,21 +76,24 @@ public class IdeaActivity extends AppCompatActivity {
         TextView textFullUsername = (TextView) findViewById(R.id.textFullUsername);
 
         buttonApplyAccept.setText(applyAccept);
-        textFullTitle.setText(currentIdea.title);
-        textFullDescription.setText(currentIdea.description);
-        textFullTech.setText(currentIdea.tech);
-        textFullUsername.setText(currentIdea.user);
+        Log.d("YourTag", "display");
+        textFullTitle.setText(title);
+        textFullDescription.setText(description);
+        textFullTech.setText(tech);
+        textFullUsername.setText(user);
     }
 
     /**
      * Get the catalog items from the server
      * @return Array of items or null if failed
      */
-    public fullIdea getIdea(String id) {
-        fullIdea currentIdea = new fullIdea();
+    public void getIdea(String id) {
+
+        //Log.d("YourTag", "YourOutput");
 
         // Create a GET query
         String query = "http://devme.tech/full-activity-get-mobile.php?id="+id;
+        Log.d("myothertag", id);
 
         /**
          * Open the connection
@@ -89,7 +106,7 @@ public class IdeaActivity extends AppCompatActivity {
             int responseCode = conn.getResponseCode();
             //HttpURLConnection.HTTP_OK
             if(responseCode != 200) {
-                return null;
+                return;
             }
 
             stream = conn.getInputStream();
@@ -107,19 +124,21 @@ public class IdeaActivity extends AppCompatActivity {
 
                 String status = xml.getAttributeValue(null, "status");
                 if(status.equals("no")) {
-                    return null;
+                    return;
                 }
 
-                while(xml.nextTag() == XmlPullParser.START_TAG) {
+                //while
+                if(xml.nextTag() == XmlPullParser.START_TAG) {
                     if(xml.getName().equals("idea")) {
-                        fullIdea idea = new fullIdea();
-                        idea.title = xml.getAttributeValue(null, "title");
-                        idea.tech = xml.getAttributeValue(null, "tech");
-                        idea.id = xml.getAttributeValue(null, "id");
-                        idea.description = xml.getAttributeValue(null, "description");
-                        idea.user = xml.getAttributeValue(null, "user");
-                        idea.casual = Integer.parseInt(xml.getAttributeValue(null, "casual"));
-                        currentIdea = idea;
+                        title = xml.getAttributeValue(null, "title");
+                        Log.d("mytitle", title);
+                        tech = xml.getAttributeValue(null, "tech");
+                        description = xml.getAttributeValue(null, "description");
+                        Log.d("mydesc", description);
+                        user = xml.getAttributeValue(null, "user");
+                        casual = Integer.parseInt(xml.getAttributeValue(null, "casual"));
+
+                        Log.d("YourTag", "db");
                     }
 
                     skipToEndTag(xml);
@@ -127,9 +146,9 @@ public class IdeaActivity extends AppCompatActivity {
 
                 // We are done
             } catch(XmlPullParserException ex) {
-                return null;
+                return;
             } catch(IOException ex) {
-                return null;
+                return;
             } finally {
                 try {
                     stream.close();
@@ -140,12 +159,10 @@ public class IdeaActivity extends AppCompatActivity {
 
         } catch (MalformedURLException e) {
             // Should never happen
-            return null;
+            return;
         } catch (IOException ex) {
-            return null;
+            return;
         }
-
-        return currentIdea;
     }
 
     /**
