@@ -27,9 +27,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class VerificationActivity extends AppCompatActivity{
 
 
-    public static final String GLOBAL_USERNAME = "edu.msu.whitehan.USERNAME";
-    public static final String GLOBAL_PASSWORD = "edu.msu.whitehan.PASSWORD";
-
     private String username;
     private String password;
     private String phoneNumber;
@@ -39,19 +36,17 @@ public class VerificationActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.verification);
 
-        Bundle bundle = getIntent().getExtras();
-
-        if (bundle != null)
-        {
-            username = bundle.getString(GLOBAL_USERNAME, "");
-            password = bundle.getString(GLOBAL_PASSWORD, "");
-        }
-        // get saved phone number from phone
         SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
-        if (devicePreferences.contains("phone-number")) {
-            phoneNumber = devicePreferences.getString("phone-number", "");
+
+        if (devicePreferences.contains("username")) {
             username = devicePreferences.getString("username", "");
             password = devicePreferences.getString("password", "");
+
+        }
+
+        // get saved phone number from phone
+        if (devicePreferences.contains("phone-number")) {
+            phoneNumber = devicePreferences.getString("phone-number", "");
             generateRand();
             sendText(phoneNumber);
         }
@@ -168,7 +163,6 @@ public class VerificationActivity extends AppCompatActivity{
                                     Intent intent = new Intent(VerificationActivity.this, NDAActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
-                                    //view.setText(results);
                                 }
                             });
                     } else {

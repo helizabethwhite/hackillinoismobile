@@ -2,6 +2,7 @@ package hackillinois.whitehan.edu.msu.devme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Xml;
 import android.view.LayoutInflater;
@@ -22,6 +23,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class IdeaActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        setContentView(R.layout.idea);
+
+    }
 
     private static class fullIdea {
         public String title = "";

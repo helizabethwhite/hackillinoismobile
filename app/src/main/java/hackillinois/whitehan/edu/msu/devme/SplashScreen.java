@@ -18,6 +18,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import com.firebase.client.Firebase;
+
 import javax.net.ssl.HttpsURLConnection;
 
 /**
@@ -35,6 +37,9 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
+
+        Firebase.setAndroidContext(this.getApplicationContext());
+
         SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
 
         if (devicePreferences.contains("username")) {
@@ -49,6 +54,8 @@ public class SplashScreen extends Activity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
+
+
 
 
     }
@@ -113,6 +120,8 @@ public class SplashScreen extends Activity {
                                 public void run() {
                                     Intent intent = new Intent(SplashScreen.this, NavigationActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra(GLOBAL_USERNAME, username);
+                                    intent.putExtra(GLOBAL_PASSWORD, password);
                                     startActivity(intent);
                                 }
                             });
