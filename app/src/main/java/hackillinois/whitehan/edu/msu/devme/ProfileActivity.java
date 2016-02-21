@@ -26,7 +26,10 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    private String profileUsername;
     private String username;
+
+    public final static String PROFILE_USERNAME = "whitehan.edu.msu.profile_username";
 
     /**
      * The items we display in the list box. Initially this is
@@ -35,9 +38,13 @@ public class ProfileActivity extends AppCompatActivity {
     private ArrayList<Profile> myProfiles = new ArrayList<Profile>();
 
     @Override
-    protected void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
+
+        if (savedInstanceState != null) {
+            profileUsername = savedInstanceState.getString(PROFILE_USERNAME);
+        }
 
         SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
 
@@ -70,7 +77,9 @@ public class ProfileActivity extends AppCompatActivity {
         if (myProfiles.size() > 0) {
             Profile profile = myProfiles.get(0);
 
-            welcome.setText("Welcome, "+ profile.firstName);
+            if (username.equals(profileUsername)) {
+                welcome.setText("Welcome, "+ profile.firstName);
+            }
             userName.setText(username);
             first.setText(profile.firstName);
             last.setText(profile.lastName);
