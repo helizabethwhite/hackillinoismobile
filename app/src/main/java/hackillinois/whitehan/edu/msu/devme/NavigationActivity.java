@@ -28,8 +28,8 @@ public class NavigationActivity extends AppCompatActivity
     private static final int MY_CONTENT = 0;
     private static final int MY_PROJECTS = 1;
     private static final int MESSAGES = 2;
-    private static final int PROFILE = 3;
-    private static final int SETTINGS = 4;
+    private static final int PROFILE = 4;
+    private static final int SETTINGS = 3;
     private static final int LOG_OUT = 5;
 
     private ListView mDrawerList;
