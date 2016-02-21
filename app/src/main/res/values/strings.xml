@@ -36,5 +36,6 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="plus">+</string>
+    <string name="plus">New Idea</string>
+    <string name="ip_disclosure">By choosing this option, you are releasing your intellectual property rights to this idea.</string>
 </resources>

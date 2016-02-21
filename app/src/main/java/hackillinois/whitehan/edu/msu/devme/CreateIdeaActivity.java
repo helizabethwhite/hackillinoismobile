@@ -1,5 +1,7 @@
 package hackillinois.whitehan.edu.msu.devme;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -39,8 +42,109 @@ public class CreateIdeaActivity extends AppCompatActivity {
 
         if (bundle != null)
         {
-            user = bundle.getString(GLOBAL_USERNAME, "");
         }
+
+        SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+        user = devicePreferences.getString("username", "");
+
+
+
+        CheckBox checkBoxCasualTest = (CheckBox) findViewById(R.id.checkCasual);
+
+        checkBoxCasualTest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    showIPPopUp();
+
+                    CheckBox checkBoxOneDevTest = (CheckBox) findViewById(R.id.checkOneDev);
+                    CheckBox checkBoxTwoDevTest = (CheckBox) findViewById(R.id.checkTwoDev);
+                    CheckBox checkBoxThreeDevTest = (CheckBox) findViewById(R.id.checkThreeDev);
+                    CheckBox checkBoxFourDevTest = (CheckBox) findViewById(R.id.checkFourDev);
+
+                    TextView chooseDevTextTest = (TextView) findViewById(R.id.textHowManyDevs);
+
+                    checkBoxOneDevTest.setEnabled(false);
+                    checkBoxTwoDevTest.setEnabled(false);
+                    checkBoxThreeDevTest.setEnabled(false);
+                    checkBoxFourDevTest.setEnabled(false);
+
+                    chooseDevTextTest.setText("");
+                }
+                if(!isChecked){
+                    CheckBox checkBoxOneDevTest = (CheckBox) findViewById(R.id.checkOneDev);
+                    CheckBox checkBoxTwoDevTest = (CheckBox) findViewById(R.id.checkTwoDev);
+                    CheckBox checkBoxThreeDevTest = (CheckBox) findViewById(R.id.checkThreeDev);
+                    CheckBox checkBoxFourDevTest = (CheckBox) findViewById(R.id.checkFourDev);
+
+                    TextView chooseDevTextTest = (TextView) findViewById(R.id.textHowManyDevs);
+
+                    checkBoxOneDevTest.setEnabled(true);
+                    checkBoxTwoDevTest.setEnabled(true);
+                    checkBoxThreeDevTest.setEnabled(true);
+                    checkBoxFourDevTest.setEnabled(true);
+
+                    chooseDevTextTest.setText(R.string.howManyDevs);
+                }
+            }
+        });
+
+        CheckBox checkBoxWebTest = (CheckBox) findViewById(R.id.checkWebApp);
+        CheckBox checkBoxMobileTest = (CheckBox) findViewById(R.id.checkMobileApp);
+        CheckBox checkBoxDesktopTest = (CheckBox) findViewById(R.id.checkDesktopApp);
+
+        checkBoxWebTest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            CheckBox checkBoxMobileTest2 = (CheckBox) findViewById(R.id.checkMobileApp);
+            CheckBox checkBoxDesktopTest2 = (CheckBox) findViewById(R.id.checkDesktopApp);
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    checkBoxMobileTest2.setEnabled(false);
+                    checkBoxDesktopTest2.setEnabled(false);
+                }
+                if(!isChecked) {
+                    checkBoxMobileTest2.setEnabled(true);
+                    checkBoxDesktopTest2.setEnabled(true);
+                }
+            }
+        });
+
+        checkBoxMobileTest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            CheckBox checkBoxWebTest2 = (CheckBox) findViewById(R.id.checkWebApp);
+            CheckBox checkBoxDesktopTest2 = (CheckBox) findViewById(R.id.checkDesktopApp);
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    checkBoxWebTest2.setEnabled(false);
+                    checkBoxDesktopTest2.setEnabled(false);
+                }
+                if(!isChecked) {
+                    checkBoxWebTest2.setEnabled(true);
+                    checkBoxDesktopTest2.setEnabled(true);
+                }
+            }
+        });
+
+        checkBoxDesktopTest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            CheckBox checkBoxMobileTest2 = (CheckBox) findViewById(R.id.checkMobileApp);
+            CheckBox checkBoxWebTest2 = (CheckBox) findViewById(R.id.checkWebApp);
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    checkBoxMobileTest2.setEnabled(false);
+                    checkBoxWebTest2.setEnabled(false);
+                }
+                if(!isChecked) {
+                    checkBoxMobileTest2.setEnabled(true);
+                    checkBoxWebTest2.setEnabled(true);
+                }
+            }
+        });
     }
 
     public void onCreateClick(View view) {
@@ -112,7 +216,6 @@ public class CreateIdeaActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);*/
         }
-
 
     }
 
@@ -238,6 +341,24 @@ public class CreateIdeaActivity extends AppCompatActivity {
 
             return serverResults;
         }
+    }
+
+    public void showIPPopUp() {
+
+        AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
+        helpBuilder.setTitle("Intellectual Property Warning");
+        helpBuilder.setMessage("By choosing this option, you are releasing your intellectual property rights to this idea.");
+        helpBuilder.setPositiveButton("Accept",
+                new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                    }
+                });
+
+        // Remember, create doesn't show the dialog
+        AlertDialog helpDialog = helpBuilder.create();
+        helpDialog.show();
     }
 
 }
