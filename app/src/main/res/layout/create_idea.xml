@@ -106,8 +106,8 @@
         android:id="@+id/checkOneDev"
         android:checked="false"
         android:layout_below="@+id/textHowManyDevs"
-        android:layout_alignLeft="@+id/textHowManyDevs"
-        android:layout_alignStart="@+id/textHowManyDevs" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -153,8 +153,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textCreateResult"
-        android:layout_alignTop="@+id/buttonSaveNewIdea"
-        android:layout_toRightOf="@+id/checkOneDev"
-        android:layout_toEndOf="@+id/checkOneDev" />
+        android:layout_below="@+id/checkFourDev"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/editIdeaTitle"
+        android:layout_alignRight="@+id/checkFourDev"
+        android:layout_alignEnd="@+id/checkFourDev"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

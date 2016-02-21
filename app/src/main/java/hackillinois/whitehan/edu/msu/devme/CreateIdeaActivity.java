@@ -31,8 +31,8 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class CreateIdeaActivity extends AppCompatActivity {
 
-    public static final String GLOBAL_USERNAME = "edu.msu.whitehan.USERNAME";
-    public String user;
+    //public static final String GLOBAL_USERNAME = "edu.msu.whitehan.USERNAME";
+    //public String user;
 
 
     @Override
@@ -44,10 +44,8 @@ public class CreateIdeaActivity extends AppCompatActivity {
         {
         }
 
-        SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
-        user = devicePreferences.getString("username", "");
-
-
+        //SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+        //String user = devicePreferences.getString("username", "");
 
         CheckBox checkBoxCasualTest = (CheckBox) findViewById(R.id.checkCasual);
 
@@ -153,6 +151,9 @@ public class CreateIdeaActivity extends AppCompatActivity {
         String tech = "";
         int casual = 0;
         int numDevs = 0;
+
+        SharedPreferences devicePreferences = getSharedPreferences("DevMeUser", MODE_PRIVATE);
+        String user = devicePreferences.getString("username", "");
 
         TextView resultText = (TextView)findViewById(R.id.textCreateResult);
 
@@ -299,7 +300,7 @@ public class CreateIdeaActivity extends AppCompatActivity {
         public String create() {
             String serverResults = "";
 
-            String postData = USER + user + "&" + TITLE + title + "&" + TECH + tech + "&" + DESCRIPTION + description + "&" + CASUAL + casual + "&" + NUMDEVS + numDevs;
+            String postData = TITLE + title + "&" + USER + user + "&" + TECH + tech + "&" + DESCRIPTION + description + "&" + CASUAL + casual + "&" + NUMDEVS + numDevs;
 
             String urlStr = "http://devme.tech/create-idea-mobile.php";
 

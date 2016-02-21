@@ -23,12 +23,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class IdeaActivity extends AppCompatActivity {
-    @Override
-    protected void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        setContentView(R.layout.idea);
-
-    }
 
     private static class fullIdea {
         public String title = "";
@@ -39,15 +33,21 @@ public class IdeaActivity extends AppCompatActivity {
         public String description = "";
     }
 
-    public Intent intent = getIntent();
-    public String Id = intent.getStringExtra("ID");
+
     public String applyAccept = "";
+    public String id = "";
+
+    public final static String ID = "hackillinois.whitehan.edu.msu.devme.ID";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_full_idea);
 
-        fullIdea currentIdea = getIdea(Id);
+        if (getIntent().hasExtra(ID)) {
+            id = getIntent().getStringExtra(ID);
+        }
+
+        fullIdea currentIdea = getIdea(id);
 
         if(currentIdea.casual == 1){
             applyAccept = "Accept";

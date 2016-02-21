@@ -44,7 +44,6 @@
     <string name="dummy_tech">Dummy Tech</string>
     <string name="dummy_user">Dummer Username</string>
     <string name="dummy_description">Dummy Description</string>
-    <string name="plus">+</string>
     <string name="title_activity_messages">MessagesActivity</string>
     <string name="title_activity_message">MessageActivity</string>
     <string name="send">Send</string>

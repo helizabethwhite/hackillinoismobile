@@ -76,7 +76,7 @@ public class NavigationActivity extends AppCompatActivity
                     public void run() {
                         Intent intent = new Intent(NavigationActivity.this, IdeaActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("ID", Id);
+                        intent.putExtra(IdeaActivity.ID, Id);
                         startActivity(intent);
                     }
                 });
